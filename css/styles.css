@@ -2204,6 +2204,7 @@ a:hover.back-to-top {
 	/* Project Lightboxes */
 	.lightbox-basic img {
 		margin-bottom: 0;
+		max-height: 320px;
 	}
 	
 	.lightbox-basic h3 {
