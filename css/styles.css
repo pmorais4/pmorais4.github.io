@@ -1752,7 +1752,7 @@ input[type='checkbox'] {
 
 .copyright p,
 .copyright a {
-	color: #dfe5ec;
+	color: #FFF;
 	text-decoration: none;
 }
 
@@ -1774,9 +1774,9 @@ a.back-to-top {
 	text-indent: -9999px;
 }
 
-a:hover.back-to-top {
+/* a:hover.back-to-top {
 	background-color: #13aa87; 
-}
+} */
 
 
 /***************************/
