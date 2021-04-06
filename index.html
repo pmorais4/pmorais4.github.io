@@ -35,6 +35,101 @@
 
     <!-- Favicon  -->
     <link rel="icon" href="images/favicon.ico">
+    <script src="/js/jquery.min.js"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
+    <script type="text/javascript">
+        var markers = null;
+        $(document).ready(function () {
+            $.get("/base_de_dados/Noticias.xml", {}, function (xml) {
+                var teste = '';
+                var fullnews = '';
+                $('noticias', xml).each(function (i) {
+                    markers = $(this);
+
+                    var sum = 1;
+                    $(markers[i].getElementsByTagName("noticia")).each(function (a) {
+                        console.log(sum);
+                        if(a <3){
+
+                     
+                        //console.log($(this)[i].getElementsByTagName("teste")[0].childNodes[0].nodeValue)
+                        if ((sum - 1 % 3) === 0 && a !== 1) {
+                            teste += "</div>";
+                        }
+
+                        if (sum === 1) {
+                            teste += "<div class='col-lg-12'>"
+                        }
+
+
+
+                        teste += "<div class='card'>"
+                            + "<div class='card-image'>"
+                            + "<img class='img-fluid' src='" + $(this)[0].getElementsByTagName("imagem")[i].innerHTML + "' alt='alternative'>"
+                            + "</div>"
+                            + "<div class='card-body'>"
+                            + "<div class='section-title'>" + $(this)[0].getElementsByTagName("data")[i].innerHTML + "</div>"
+                            + "<h3 class='card-title'>" + $(this)[0].getElementsByTagName("titulo")[i].innerHTML + "</h3>"
+                            + "</div>"
+                            + "<div class='button-container'>"
+                            + "<a class='btn-solid-reg popup-with-move-anim' href='#project-"+a+"'>Ver Noticia</a>"
+                            + "</div>"
+                            + "</div>";
+
+                        if ((sum % 3) === 0 && a !== 1) {
+
+                            sum = 1;
+                            console.log("inicia")
+                        } else {
+                            sum = sum + 1;
+                        }
+
+
+
+
+                        fullnews += "<div id='project-" + a + "' class='lightbox-basic zoom-anim-dialog mfp-hide'>"
+                                         + "<div class='row'>"
+                                                 + " <button title='Close (Esc)' type='button' class='mfp-close x-button'>×</button>"
+                                                    + "  <div class='col-lg-12 text-center'>"
+                                                    + "      <img class='img-fluid' src='" + $(this)[0].getElementsByTagName("imagem")[i].innerHTML + "' alt='alternative'>"
+                                                 + "   </div>"
+                            + "                         <div class='col-lg-12'>"
+                            + "                              <h3>" + $(this)[0].getElementsByTagName("titulo")[i].innerHTML + "</h3>"
+                            + "                               <hr class='line-heading'>"
+                            + "                                <h6>" + $(this)[0].getElementsByTagName("data")[i].innerHTML + "</h6>"
+                            + "                                <p>" + $(this)[0].getElementsByTagName("texto")[i].innerHTML + "</p>"
+                            +"                                 <a class='btn-outline-reg mfp-close as-button' href='#projects'>Fechar</a>"
+                            + "                          </div>"
+                                             + " </div>"
+                                       + "</div>";
+                                    }
+
+                    });
+                    //markers[0].getElementsByTagName("teste")[i].childNodes[0].nodeValue;
+
+                    document.getElementById("add_to_me").innerHTML += teste;
+                    
+                    document.getElementById("add_to_me2").innerHTML += fullnews;
+
+                    $('.popup-with-move-anim').magnificPopup({
+                        type: 'inline',
+                        fixedContentPos: false, /* keep it false to avoid html tag shift with margin-right: 17px */
+                        fixedBgPos: true,
+                        overflowY: 'auto',
+                        closeBtnInside: true,
+                        preloader: false,
+                        midClick: true,
+                        removalDelay: 300,
+                        mainClass: 'my-mfp-slide-bottom'
+                    });
+                    
+                });
+            });
+           
+            
+
+
+        });
+    </script>
 </head>
 
 <body data-spy="scroll" data-target=".fixed-top">
@@ -299,129 +394,33 @@
     </div> <!-- end of basic-1 -->
     <!-- end of intro -->
 
-
     <!-- Noticias -->
+    <div id="add_to_me2"></div>
     <div id="noticias" class="cards-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- <div class="section-title">MEDIA</div> -->
-                    <h2>Últimas Notícias</h2>
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-12">
+        <div id="add_to_container" class="container">
+           
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- <div class="section-title">MEDIA</div> -->
+                        <h2>Últimas Notícias</h2>
+                    </div> <!-- end of col -->
+                </div> <!-- end of row -->
+            <div id="add_to_me" class="row">
 
-                    <!-- Noticia Mini -->
-                    <div class="card">
-                        <div style="height: 334px" class="card-image">
-                            <img class="img-fluid" src="images/noticias/noticia1.JPG" alt="alternative">
-                        </div>
-                        <div class="card-body">
-
-                            <div class="section-title">06.01.2021</div>
-                            <h3 class="card-title">JSD Anadia com maior participação no Núcleo de Estudantes da UA
-                            </h3>
-                            <p hidden>Perfect for fresh ideas or young startups, this package will help get the business
-                                off
-                                the ground</p>
-
-                            <ul hidden class="list-unstyled li-space-lg">
-                                <li class="media">
-                                    <i class="fas fa-square"></i>
-                                    <div class="media-body">Environment and competition</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-square"></i>
-                                    <div class="media-body">Designing the marketing plan</div>
-                                </li>
-                            </ul>
-                            <p hidden class="price">Starting at <span>$199</span></p>
-                        </div>
-                        <div class="button-container">
-                            <a class="btn-solid-reg popup-with-move-anim" href="#project-1">Ver Noticia</a>
-                        </div> <!-- end of button-container -->
-                    </div>
-                    <!-- end of card -->
-
-                    <!-- Card -->
-                    <div class="card">
-                        <div class="card-image">
-                            <img class="img-fluid" src="images/noticias/noticia2.jpg" alt="alternative">
-                        </div>
-                        <div class="card-body">
-
-                            <div class="section-title">11.11.2020</div>
-                            <h3 class="card-title">JSD Anadia trás ao debate a Habitação Jovem</h3>
-                            <p hidden>Perfect for fresh ideas or young startups, this package will help get the business
-                                off
-                                the ground</p>
-
-                            <ul hidden class="list-unstyled li-space-lg">
-                                <li class="media">
-                                    <i class="fas fa-square"></i>
-                                    <div class="media-body">Environment and competition</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-square"></i>
-                                    <div class="media-body">Designing the marketing plan</div>
-                                </li>
-                            </ul>
-                            <p hidden class="price">Starting at <span>$199</span></p>
-                        </div>
-                        <div class="button-container">
-                            <a class="btn-solid-reg popup-with-move-anim" href="#project-2">Ver Noticia</a>
-                        </div> <!-- end of button-container -->
-                    </div>
-                    <!-- end of card -->
-
-                    <!-- Card -->
-                    <div class="card">
-                        <div class="card-image">
-                            <img class="img-fluid" src="images/noticias/noticia3.JPG" alt="alternative">
-                        </div>
-                        <div class="card-body">
-
-                            <div class="section-title">12.10.2020</div>
-                            <h3 class="card-title">Novo desafio para a Comunidade Jovem de Anadia</h3>
-                            <p hidden>Perfect for fresh ideas or young startups, this package will help get the business
-                                off
-                                the ground</p>
-
-                            <ul hidden class="list-unstyled li-space-lg">
-                                <li class="media">
-                                    <i class="fas fa-square"></i>
-                                    <div class="media-body">Environment and competition</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-square"></i>
-                                    <div class="media-body">Designing the marketing plan</div>
-                                </li>
-                            </ul>
-                            <p hidden class="price">Starting at <span>$199</span></p>
-                        </div>
-                        <div class="button-container">
-                            <a class="btn-solid-reg popup-with-move-anim" href="#project-3">Ver Noticia</a>
-                        </div> <!-- end of button-container -->
-                    </div>
-                    <!-- end of card -->
-
-                </div> <!-- end of col -->
-
-               
-
-            </div> <!-- end of row -->
+            </div>
 
             <div class="row d-block text-center">
                 <div class="button-container d-inline text-center">
                     <a class="btn-solid-reg" href="/noticias/">Ver Mais</a>
                 </div> <!-- end of button-container -->
             </div>
-        </div> <!-- end of container -->
+            
+        </div> <!-- end of row -->
 
-    </div> <!-- end of cards-2 -->
-    <!-- end of noticias -->
-
+        
+    </div> <!-- end of container -->
+    
+ <!-- end of noticias -->
 
     <!-- Details 1 -->
     <div hidden id="details" class="accordion">
@@ -623,7 +622,6 @@
     </div> <!-- end of tabs -->
     <!-- end of details 2 -->
 
-
     <!-- Testimonials -->
     <div hidden class="slider">
         <div class="container">
@@ -737,301 +735,6 @@
         </div> <!-- end of container -->
     </div> <!-- end of slider -->
     <!-- end of testimonials -->
-
-
-    <!-- Call Me -->
-    <div hidden id="callMe" class="form-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="text-container">
-                        <div class="section-title">CALL ME</div>
-                        <h2 class="white">Have Us Contact You By Filling And Submitting The Form</h2>
-                        <p class="white">You are just a few steps away from a personalized offer. Just fill in the form
-                            and send it to us and we'll get right back with a call to help you decide what service
-                            package works.</p>
-                        <ul class="list-unstyled li-space-lg white">
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">It's very easy just fill in the form so we can call</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">During the call we'll require some info about the company</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">Don't hesitate to email us for any questions or inquiries</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div> <!-- end of col -->
-                <div class="col-lg-6">
-
-                    <!-- Call Me Form -->
-                    <form id="callMeForm" data-toggle="validator" data-focus="false">
-                        <div class="form-group">
-                            <input type="text" class="form-control-input" id="lname" name="lname" required>
-                            <label class="label-control" for="lname">Name</label>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control-input" id="lphone" name="lphone" required>
-                            <label class="label-control" for="lphone">Phone</label>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control-input" id="lemail" name="lemail" required>
-                            <label class="label-control" for="lemail">Email</label>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control-select" id="lselect" required>
-                                <option class="select-option" value="" disabled selected>Interested in...</option>
-                                <option class="select-option" value="Off The Ground">Off The Ground</option>
-                                <option class="select-option" value="Accelerated Growth">Accelerated Growth</option>
-                                <option class="select-option" value="Market Domination">Market Domination</option>
-                            </select>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group checkbox white">
-                            <input type="checkbox" id="lterms" value="Agreed-to-Terms" name="lterms" required>I agree
-                            with Aria's stated <a class="white" href="privacy-policy.html">Privacy Policy</a> and <a
-                                class="white" href="terms-conditions.html">Terms & Conditions</a>
-                            <div class="help-block with-errors"></div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="form-control-submit-button">CALL ME</button>
-                        </div>
-                        <div class="form-message">
-                            <div id="lmsgSubmit" class="h3 text-center hidden"></div>
-                        </div>
-                    </form>
-                    <!-- end of call me form -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of form-1 -->
-    <!-- end of call me -->
-
-
-    <!-- Projects -->
-    <div hidden id="projects" class="filter">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">PROJECTS</div>
-                    <h2>Projects That We're Proud Of</h2>
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Filter -->
-                    <div class="button-group filters-button-group">
-                        <a class="button is-checked" data-filter="*"><span>SHOW ALL</span></a>
-                        <a class="button" data-filter=".design"><span>DESIGN</span></a>
-                        <a class="button" data-filter=".development"><span>DEVELOPMENT</span></a>
-                        <a class="button" data-filter=".marketing"><span>MARKETING</span></a>
-                        <a class="button" data-filter=".seo"><span>SEO</span></a>
-                    </div> <!-- end of button group -->
-                    <div class="grid">
-                        <div class="element-item development">
-                            <a class="popup-with-move-anim" href="#project-1">
-                                <div class="element-item-overlay"><span>Online Banking</span></div><img
-                                    src="images/project-1.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item development">
-                            <a class="popup-with-move-anim" href="#project-2">
-                                <div class="element-item-overlay"><span>Classic Industry</span></div><img
-                                    src="images/project-2.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item design development marketing">
-                            <a class="popup-with-move-anim" href="#project-3">
-                                <div class="element-item-overlay"><span>BoomBap Audio</span></div><img
-                                    src="images/project-3.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item design development marketing">
-                            <a class="popup-with-move-anim" href="#project-4">
-                                <div class="element-item-overlay"><span>Van Moose</span></div><img
-                                    src="images/project-4.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item design development marketing seo">
-                            <a class="popup-with-move-anim" href="#project-5">
-                                <div class="element-item-overlay"><span>Joy Moments</span></div><img
-                                    src="images/project-5.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item design marketing seo">
-                            <a class="popup-with-move-anim" href="#project-6">
-                                <div class="element-item-overlay"><span>Spark Events</span></div><img
-                                    src="images/project-6.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item design marketing">
-                            <a class="popup-with-move-anim" href="#project-7">
-                                <div class="element-item-overlay"><span>Casual Wear</span></div><img
-                                    src="images/project-7.jpg" alt="alternative">
-                            </a>
-                        </div>
-                        <div class="element-item design marketing">
-                            <a class="popup-with-move-anim" href="#project-8">
-                                <div class="element-item-overlay"><span>Zazoo Apps</span></div><img
-                                    src="images/project-8.jpg" alt="alternative">
-                            </a>
-                        </div>
-                    </div> <!-- end of grid -->
-                    <!-- end of filter -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of filter -->
-    <!-- end of projects -->
-
-
-    <!-- Project Lightboxes -->
-    <!-- Lightbox -->
-    <div id="project-1" class="lightbox-basic zoom-anim-dialog mfp-hide">
-        <div class="row">
-            <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
-            <div class="col-lg-12 text-center">
-                <img class="img-fluid" src="images/noticias/noticia1.JPG" alt="alternative">
-            </div> <!-- end of col -->
-            <div class="col-lg-12">
-                <h3>JSD Anadia com maior participação no Núcleo de Estudantes da UA</h3>
-                <hr class="line-heading">
-                <h6>06.01.2021</h6>
-                <p>Decorreu no passado mês de dezembro as eleições para o Núcleo de Estudantes Sociais
-                    Democratas da Universidade de Aveiro (NESD UA) da qual resultou a recondução de Diogo
-                    Oliveira, da concelhia de Aveiro.</p>
-
-                <p>Nestas eleições, de Anadia foram eleitos para a Direção, Luís Pedro como Vice-Presidente e
-                    Bernardo Pereira como Vogal. Jéssica Portovedo foi eleita Vice-Presidente da Mesa do
-                    Plenário. O projeto assume-se como de continuidade e apresenta a comunicação, proximidade
-                    e cooperação como principais valores.</p>
-
-                <p>Pedro Veiga, Presidente da JSD Anadia, foi o mandatário da candidatura e referiu que “o balanço do
-                    trabalho do NESD UA no último ano foi muito positivo, sendo um importante meio de auscultação dos
-                    problemas dos
-                    estudantes”, destacando a “participação dos anadienses que em muito contribuíram para que
-                    todos os objetivos fossem alcançados”.</p>
-
-                <div hidden class="testimonial-container">
-                    <p class="testimonial-text">Need a solid foundation for your business growth plans? Aria will help
-                        you manage sales and meet your current requirements.</p>
-                    <p class="testimonial-author">General Manager</p>
-                </div>
-
-                <a hidden class="btn-solid-reg" href="#your-link">DETAILS</a>
-                <a class="btn-outline-reg mfp-close as-button" href="#projects">Fechar</a>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div>
-    <!-- end of lightbox-basic -->
-    <!-- end of lightbox -->
-
-    <!-- Project Lightboxes -->
-    <!-- Lightbox -->
-    <div id="project-2" class="lightbox-basic zoom-anim-dialog mfp-hide">
-        <div class="row">
-            <button title="Fechar (Esc)" type="button" class="mfp-close x-button">×</button>
-            <div class="col-lg-12 text-center">
-                <img class="img-fluid" src="images/noticias/noticia2.jpg" alt="alternative">
-            </div> <!-- end of col -->
-            <div class="col-lg-12">
-                <h3>JSD Anadia trás ao debate a Habitação Jovem</h3>
-                <hr class="line-heading">
-                <h6>25.10.2020</h6>
-
-                <p>No Conselho Municipal da Juventude (CMJ), a JSD Anadia, através do seu
-                    representante Pedro Veiga, apresentou e debateu com os membros do CMJ o
-                    documento intitulado de “Habitação Jovem: que caminho falta fazer?”.</p>
-
-                <p>Deste documento constam alguns exemplo e explicações de medidas já existentes para
-                    o combate a esta problemática, terminando com o apelo para reflexão e estudo de
-                    algumas novas medidas, assim como o de reforçar já existentes.</p>
-
-                <p>Pedro Veiga, Presidente da JSD Anadia, após a reunião mostrou-se satisfeito pela
-                    discussão gerada entre os conselheiros, referindo que “passando também pela
-                    habitação, Anadia precisa de criar condições para o aumento da fixação de jovens, só
-                    assim vamos inverter a tendência da existência dos cerca de 252 idosos por cada 100
-                    jovens no nosso concelho”.</p>
-
-                <div hidden class="testimonial-container">
-                    <p class="testimonial-text">Need a solid foundation for your business growth plans? Aria will help
-                        you manage sales and meet your current requirements.</p>
-                    <p class="testimonial-author">General Manager</p>
-                </div>
-
-                <a hidden class="btn-solid-reg" href="#your-link">DETAILS</a>
-                <a class="btn-outline-reg mfp-close as-button" href="#projects">Fechar</a>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div>
-    <!-- end of lightbox-basic -->
-    <!-- end of lightbox -->
-
-    <!-- Project Lightboxes -->
-    <!-- Lightbox -->
-    <div id="project-3" class="lightbox-basic zoom-anim-dialog mfp-hide">
-        <div class="row">
-            <button title="Fechar (Esc)" type="button" class="mfp-close x-button">×</button>
-            <div class="col-lg-12 text-center">
-                <img class="img-fluid" src="images/noticias/noticia3.JPG" alt="alternative">
-            </div> <!-- end of col -->
-            <div class="col-lg-12">
-                <h3>Novo desafio para a Comunidade Jovem de Anadia</h3>
-                <hr class="line-heading">
-                <h6>12.10.2020</h6>
-
-                <p>
-                    Aproveitando o contexto de Eleições Autárquicas que se realiza no próximo ano e por
-                    forma a potenciar a participação jovem nas políticas municipais do Concelho de Anadia,
-                    surge o “UOI! 2030 – o teu manifesto local de juventude”.
-                </p>
-                <p>
-                    O “UOI! 2030” é um manifesto que quer ser verdadeiramente representativo das
-                    ambições, desejos e vontades dos jovens anadienses. Palavra nativa e endémica de
-                    Anadia, “uoi” serve como interjeição de estilo, de modo, de dúvida, de espanto, de
-                    estímulo e representa-nos assim enquanto grupo de jovens que pretende promover
-                    soluções para uma melhorar qualidade de vida no nosso concelho, projetando-o a 2030.
-                </p>
-                <p>
-                    Reconhecendo que as opiniões dos jovens são diversas e plurais, a JSD desafiou a
-                    comunidade juvenil a criar o seu próprio manifesto. Utilizando uma abordagem
-                    integradora na forma de ouvir os jovens, este é um projeto constituído por uma equipa
-                    abrangente e diversificada a nível profissional e ideológico e que é coordenada por
-                    Manuel Semedo, um jovem independente, natural de Ferreiros e Mestre em
-                    Sustentabilidade Urbana pela Universidade de Buenos Aires.
-                </p>
-                <p>
-                    Manuel Semedo, que atualmente também trabalha no Departamento Municipal de
-                    Planeamento e Gestão Ambiental da Câmara Municipal do Porto, refere que “o desafio
-                    ambiental global que a nossa geração tem pela frente cria a necessidade de pensar
-                    políticas e projetos locais a curto, médio e longo prazo, políticas e projetos que sirvam
-                    a comunidade e o ambiente. Queremos fazer, juntamente com toda a comunidade
-                    jovem do nosso concelho, um documento participativo, diverso e inclusivo”.
-                </p>
-
-                <div hidden class="testimonial-container">
-                    <p class="testimonial-text">Need a solid foundation for your business growth plans? Aria will help
-                        you manage sales and meet your current requirements.</p>
-                    <p class="testimonial-author">General Manager</p>
-                </div>
-
-                <a hidden class="btn-solid-reg" href="#your-link">DETAILS</a>
-                <a class="btn-outline-reg mfp-close as-button" href="#projects">Fechar</a>
-            </div> <!-- end of col -->
-            
-        </div> <!-- end of row -->
-    </div>
-    <!-- end of lightbox-basic -->
-    <!-- end of lightbox -->
 
     <!-- Team -->
     <div id="equipa" class="basic-2">
@@ -1406,20 +1109,18 @@
 
                 <div class="col-md-2" style="display: inline-block;">
                     <a href="https://jsd.pt" target="_blank">
-                        <img style="height: 170px;"
-                            src="images/jsd-link.png">
+                        <img style="height: 170px;" src="images/jsd-link.png">
                     </a>
                 </div>
                 <div class="col-md-2" style="display: inline-block;">
                     <a href="https://www.facebook.com/jsddistritalaveiro" target="_blank">
-                        <img style="height: 170px;"
-                            src="images/jsddistrital.png">
+                        <img style="height: 170px;" src="images/jsddistrital.png">
                     </a>
                 </div>
-                <div class="col-md-2" style="display: inline-block;"><a href="https://psd.pt" target="_blank"><img style="height: 170px;"
-                            src="images/psd-link.png"></a></div>
-                <div class="col-md-2" style="display: inline-block;"><a href="https://psdparlamentoeuropeu.pt/" target="_blank"><img
-                            style="height: 170px;" src="images/psd2-link.png"></a></div>
+                <div class="col-md-2" style="display: inline-block;"><a href="https://psd.pt" target="_blank"><img
+                            style="height: 170px;" src="images/psd-link.png"></a></div>
+                <div class="col-md-2" style="display: inline-block;"><a href="https://psdparlamentoeuropeu.pt/"
+                        target="_blank"><img style="height: 170px;" src="images/psd2-link.png"></a></div>
                 <div class="col-md-2" style="display: inline-block;"><a href="http://youthepp.eu/" target="_blank"><img
                             style="height: 170px;" src="images/yepp-link.png"></a></div>
             </div>
@@ -1464,7 +1165,6 @@
 
 
     <!-- Scripts -->
-    <script src="js/jquery.min.js"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
     <script src="js/popper.min.js"></script> <!-- Popper tooltip library for Bootstrap -->
     <script src="js/bootstrap.min.js"></script> <!-- Bootstrap framework -->
     <script src="js/jquery.easing.min.js"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
